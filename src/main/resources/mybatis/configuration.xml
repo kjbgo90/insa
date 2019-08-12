@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<typeAliases>
+		<typeAlias alias="InsaVo" type="com.insa.vo.InsaVo" />
+		<typeAlias alias="CommonVo" type="com.insa.vo.CommonVo" />
+		<typeAlias alias="FileVo" type="com.insa.vo.FileVo" />
+		<typeAlias alias="SearchVo" type="com.insa.vo.SearchVo" />
+		<typeAlias alias="SearchResultVo" type="com.insa.vo.SearchResultVo" />
+		<typeAlias alias="InputInfoVo" type="com.insa.vo.InputInfoVo" />
+	</typeAliases>
+
+	<mappers>
+		<mapper resource="mybatis/mappers/input.xml" />
+		<mapper resource="mybatis/mappers/modify.xml" />
+		<mapper resource="mybatis/mappers/search.xml" />
+	</mappers>
+</configuration>

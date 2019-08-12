@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="input">
+	
+	<!-- 쿼리문 작성 -->
+	
+	<!-- select 예제 -->
+	<!-- selector 항목 불러오는 sql --> 
+	<select id="selectCommonListByGubun" parameterType="String" resultType="CommonVo">
+		<![CDATA[
+			SELECT   gubun, 
+					 code, 
+					 name, 
+					 note 
+			FROM     insa_com 
+			WHERE    gubun = #{gubun}
+			ORDER BY code
+		]]>
+	</select>
+	
+	<!-- sabun을 구하기 위해 insa테이블의 총 갯수 -->
+	<select id="selectCntInsa" resultType="int">
+		<![CDATA[
+			SELECT   COUNT(sabun)
+			FROM     insa
+		]]>
+	</select>
+	
+	<!-- sabun을 구하기 위한 마지막 sabun -->
+	<select id="selectMaxSabun" resultType="int">
+		<![CDATA[
+			SELECT   MAX(sabun)
+			FROM     insa
+		]]>
+	</select>
+	
+	<!-- 파일을 file테이블에 넣어주는 sql -->
+	<insert id="insertFileByFileVo" parameterType="FileVo">
+		<selectKey keyProperty="seq" resultType="int" order="BEFORE">
+			SELECT seq_files.nextval FROM dual
+		</selectKey>
+		<![CDATA[
+			INSERT INTO files(		seq,
+	    							fileType,
+	    							filePath,
+	    							orgName,
+	    							saveName,
+	    							fileSize)
+			VALUES (
+	    							#{seq},
+	    							#{fileType}, 
+	    							#{filePath},
+	    							#{orgName},
+	    							#{saveName},
+	    							#{fileSize})
+		]]>
+	</insert>
+	
+	<!-- 들어온 데이터들로 인사테이블을 채워줌 값이 안들어 온 칼럼은 NULL을 넣어줌 -->
+	<insert id="insertInsaByInsaVo" parameterType="InsaVo">
+		
+			INSERT INTO insa(	sabun,
+								join_day,
+								name,
+								hp,
+								email,
+								id,
+								pwd,
+								put_yn,
+								pos_gbn_code,
+								sex,
+								dept_code,
+								join_gbn_code,
+								kosa_reg_yn,
+								kosa_class_code,
+								mil_yn,
+								mil_type,
+								mil_level,
+								gart_level,
+								job_type,
+								retire_day,
+								reg_no,
+								eng_name,
+								phone,
+								carrier,
+								cmp_reg_no,
+								cmp_reg_image,
+								years,
+								zip,
+								addr1,
+								addr2,
+								salary,
+								mil_startdate,
+								mil_enddate,
+								self_intro,
+								crm_name,
+								profile
+								)
+			VALUES(				#{sabun},
+								#{join_day},
+								#{name},
+								#{hp},
+								#{email},
+								#{id},
+								#{pwd},
+								#{put_yn},
+								#{pos_gbn_code},
+								#{sex},
+								#{dept_code},
+								#{join_gbn_code},
+								#{kosa_reg_yn},
+								#{kosa_class_code},
+								#{mil_yn},
+								#{mil_type},
+								#{mil_level},
+								#{gart_level},
+								#{job_type},
+						<choose>
+							<when test="retire_day.equals('')">
+								NULL,
+							</when>
+							<otherwise>
+								#{retire_day},
+							</otherwise>
+						</choose>
+						<choose>
+							<when test="reg_no.equals('')">
+								NULL,
+							</when>
+							<otherwise>
+								#{reg_no},
+							</otherwise>
+						</choose>
+						<choose>
+							<when test="eng_name.equals('')">
+								NULL,
+							</when>
+							<otherwise>
+								#{eng_name},
+							</otherwise>
+						</choose>	
+						<choose>
+							<when test="phone.equals('')">
+								NULL,
+							</when>
+							<otherwise>
+								#{phone},
+							</otherwise>
+						</choose>
+						<choose>
+							<when test="carrier.equals('')">
+								NULL,
+							</when>
+							<otherwise>
+								#{carrier},
+							</otherwise>
+						</choose>
+						<choose>
+							<when test="cmp_reg_no.equals('')">
+								NULL,
+							</when>
+							<otherwise>
+								#{cmp_reg_no},
+							</otherwise>
+						</choose>
+						<choose>
+							<when test="cmp_reg_image.equals('')">
+								NULL,
+							</when>
+							<otherwise>
+								#{cmp_reg_image},
+							</otherwise>
+						</choose>
+						<choose>
+							<when test="years==0">
+								NULL,
+							</when>
+							<otherwise>
+								#{years},
+							</otherwise>
+						</choose>
+						<choose>
+							<when test="zip==0">
+								NULL,
+							</when>
+							<otherwise>
+								#{zip},
+							</otherwise>
+						</choose>
+						<choose>
+							<when test="addr1.equals('')">
+								NULL,
+							</when>
+							<otherwise>
+								#{addr1},
+							</otherwise>
+						</choose>
+						<choose>
+							<when test="addr2.equals('')">
+								NULL,
+							</when>
+							<otherwise>
+								#{addr2},
+							</otherwise>
+						</choose>
+						<choose>
+							<when test="salary==0">
+								NULL,
+							</when>
+							<otherwise>
+								#{salary},
+							</otherwise>
+						</choose>
+						<choose>
+							<when test="mil_startdate.equals('')">
+								NULL,
+							</when>
+							<otherwise>
+								#{mil_startdate},
+							</otherwise>
+						</choose>
+						<choose>
+							<when test="mil_enddate.equals('')">
+								NULL,
+							</when>
+							<otherwise>
+								#{mil_enddate},
+							</otherwise>
+						</choose>
+						<choose>
+							<when test="self_intro.equals('')">
+								NULL,
+							</when>
+							<otherwise>
+								#{self_intro},
+							</otherwise>
+						</choose>
+						<choose>
+							<when test="crm_name.equals('')">
+								NULL,
+							</when>
+							<otherwise>
+								#{crm_name},
+							</otherwise>
+						</choose>
+						<choose>
+							<when test="profile.equals('')">
+								NULL
+							</when>
+							<otherwise>
+								#{profile}
+							</otherwise>
+						</choose>
+								)
+	</insert>
+	
+	<!-- 인사테이블을 등록한 후에 files테이블에 sabun을 추가해줌 -->
+	<update id="updateFileBySabunAndOrgName" parameterType="map">
+		<![CDATA[
+			UPDATE 	files 
+			SET 	sabun = #{sabun}
+			WHERE 	saveName = #{saveName}
+		]]>
+	</update>
+	
+</mapper>

@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="modify">
+	
+	<!-- 쿼리문 작성 -->
+	
+	<select id="selectInsaVoBySabun" parameterType="int" resultType="InsaVo">
+		<![CDATA[
+			SELECT   sabun,
+					 TO_CHAR(join_day, 'yyyy-mm-dd') as join_day,
+					 TO_CHAR(retire_day, 'yyyy-mm-dd') as retire_day,
+					 put_yn,
+					 name,
+					 reg_no,
+					 eng_name,
+					 phone,
+					 hp,
+					 carrier,
+					 pos_gbn_code,
+					 cmp_reg_no,
+					 cmp_reg_image,
+					 sex,
+					 years,
+					 email,
+					 zip,
+					 addr1,
+					 addr2,
+					 dept_code,
+					 join_gbn_code,
+					 id,
+					 pwd,
+					 salary,
+					 kosa_reg_yn,
+					 kosa_class_code,
+					 mil_yn,
+					 mil_type,
+					 mil_level,
+					 TO_CHAR(mil_startdate, 'yyyy-mm-dd') as mil_startdate,
+					 TO_CHAR(mil_enddate, 'yyyy-mm-dd') as mil_enddate,
+					 gart_level,
+					 self_intro,
+					 crm_name,
+					 profile,
+					 job_type
+			FROM 	 insa
+			WHERE 	 sabun = #{sabun}
+		]]>
+	</select>
+	
+	<select id="selectFileVoBySaveName" parameterType="String" resultType="FileVo">
+		<![CDATA[
+			SELECT 	seq,
+					sabun,
+					fileType,
+					filePath,
+					orgName,
+					saveName,
+					fileSize
+			FROM	files
+			WHERE	saveName = #{saveName}
+		]]>
+	</select>
+	
+	<delete id="deleteFileBySaveName" parameterType="String">
+		<![CDATA[
+			DELETE FROM files
+			WHERE saveName = #{saveName}
+		]]>
+	</delete>
+	
+	<update id="updateInsaByInsaVo" parameterType="InsaVo">
+		
+			UPDATE 				insa 
+			SET 				join_day = #{join_day},
+								name = #{name},
+								hp = #{hp}, 
+								email = #{email},
+								id = #{id},
+								pwd = #{pwd},
+								put_yn = #{put_yn},
+								pos_gbn_code = #{pos_gbn_code},
+								sex = #{sex},
+								dept_code = #{dept_code},
+								join_gbn_code = #{join_gbn_code},
+								kosa_reg_yn = #{kosa_reg_yn},
+								kosa_class_code = #{kosa_class_code},
+								mil_yn = #{mil_yn},
+								mil_type = #{mil_type},
+								mil_level = #{mil_level},
+								gart_level = #{gart_level},
+								job_type = #{job_type},
+						<choose>
+							<when test="retire_day.equals('')">
+								retire_day = NULL,
+							</when>
+							<otherwise>
+								retire_day = #{retire_day},
+							</otherwise>
+						</choose>
+						<choose>
+							<when test="reg_no.equals('')">
+								reg_no = NULL,
+							</when>
+							<otherwise>
+								reg_no = #{reg_no},
+							</otherwise>
+						</choose>
+						<choose>
+							<when test="eng_name.equals('')">
+								eng_name = NULL,
+							</when>
+							<otherwise>
+								eng_name = #{eng_name},
+							</otherwise>
+						</choose>	
+						<choose>
+							<when test="phone.equals('')">
+								phone = NULL,
+							</when>
+							<otherwise>
+								phone = #{phone},
+							</otherwise>
+						</choose>
+						<choose>
+							<when test="carrier.equals('')">
+								carrier = NULL,
+							</when>
+							<otherwise>
+								carrier = #{carrier},
+							</otherwise>
+						</choose>
+						<choose>
+							<when test="cmp_reg_no.equals('')">
+								cmp_reg_no = NULL,
+							</when>
+							<otherwise>
+								cmp_reg_no = #{cmp_reg_no},
+							</otherwise>
+						</choose>
+						<choose>
+							<when test="cmp_reg_image.equals('')">
+								cmp_reg_image = NULL,
+							</when>
+							<otherwise>
+								cmp_reg_image = #{cmp_reg_image},
+							</otherwise>
+						</choose>
+						<choose>
+							<when test="years==0">
+								years = NULL,
+							</when>
+							<otherwise>
+								years = #{years},
+							</otherwise>
+						</choose>
+						<choose>
+							<when test="zip==0">
+								zip = NULL,
+							</when>
+							<otherwise>
+								zip = #{zip},
+							</otherwise>
+						</choose>
+						<choose>
+							<when test="addr1.equals('')">
+								addr1 = NULL,
+							</when>
+							<otherwise>
+								addr1 = #{addr1},
+							</otherwise>
+						</choose>
+						<choose>
+							<when test="addr2.equals('')">
+								addr2 = NULL,
+							</when>
+							<otherwise>
+								addr2 = #{addr2},
+							</otherwise>
+						</choose>
+						<choose>
+							<when test="salary==0">
+								salary = NULL,
+							</when>
+							<otherwise>
+								salary = #{salary},
+							</otherwise>
+						</choose>
+						<choose>
+							<when test="mil_startdate.equals('')">
+								mil_startdate = NULL,
+							</when>
+							<otherwise>
+								mil_startdate = #{mil_startdate},
+							</otherwise>
+						</choose>
+						<choose>
+							<when test="mil_enddate.equals('')">
+								mil_enddate = NULL,
+							</when>
+							<otherwise>
+								mil_enddate = #{mil_enddate},
+							</otherwise>
+						</choose>
+						<choose>
+							<when test="self_intro.equals('')">
+								self_intro = NULL,
+							</when>
+							<otherwise>
+								self_intro = #{self_intro},
+							</otherwise>
+						</choose>
+						<choose>
+							<when test="crm_name.equals('')">
+								crm_name = NULL,
+							</when>
+							<otherwise>
+								crm_name = #{crm_name},
+							</otherwise>
+						</choose>
+						<choose>
+							<when test="profile.equals('')">
+								profile = NULL
+							</when>
+							<otherwise>
+								profile = #{profile}
+							</otherwise>
+						</choose>
+			WHERE 	sabun = #{sabun}
+		
+	</update>
+	
+	<select id="selectInputInfoBySabun" parameterType="int" resultType="InputInfoVo">
+		<![CDATA[
+			SELECT 	sabun,
+					seq,
+					TO_CHAR(wrk_posb_day, 'yyyy-mm-dd') as wrk_posb_day,
+					sugst_money,
+					pjt_gbn_code,
+					eqm_yn,
+					current_salary,
+					work_area
+			FROM 	insa_input_info
+			WHERE	sabun = #{sabun}
+		]]>
+	</select>
+</mapper>
